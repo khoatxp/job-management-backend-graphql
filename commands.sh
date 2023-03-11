@@ -7,8 +7,6 @@ PROJECT_ID="jobmanagementsystem"
 build() {
     echo "Building Project..."
     docker build -t $GROUP/$SERVICE .
-
-    # localhost:8084 when accessing locally
     docker run -p $LOCALHOST_PORT:$PORT_DEFINED_IN_INDEXJS -d $GROUP/$SERVICE
 }
 
@@ -20,7 +18,7 @@ deploy() {
 
 kill() {
     echo "Turning off local container..."
-    CONTAINER_ID=$(docker ps | grep 'cmpt470/backend' | awk '{ print $1 }')
+    CONTAINER_ID=$(docker ps | grep $GROUP/$SERVICE | awk '{ print $1 }')
     docker kill $CONTAINER_ID
     echo "Killed..."
 }

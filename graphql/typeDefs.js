@@ -24,8 +24,13 @@ module.exports = gql `
       token: String!
       username: String!
       createdAt: String!
+      firstName: String!,
+      lastName: String!,
+      biography: String!
   }
   input RegisterInput{
+      firstName: String!,
+      lastName: String!,
       username: String!
       password: String!
       confirmPassword: String!
@@ -38,7 +43,7 @@ module.exports = gql `
     getJobPost(postId: ID!): JobPost
   }
   type Mutation{
-      register(registerInput: RegisterInput): User!
+      register(registerInput: RegisterInput!): User!
       login(username: String!, password: String!): User!
       createJobPost(body: String!, company: String!, salary: String!, title:String!, location:String!): JobPost!
       deleteJobPost(postId: ID!): String!
