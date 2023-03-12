@@ -3,6 +3,7 @@ const usersResolvers = require('./users');
 
 module.exports = {
     Query:{
+        ...usersResolvers.Query,
         ...jobPostsResolvers.Query
     },
     Mutation:{

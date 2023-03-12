@@ -1,7 +1,7 @@
 GROUP="cmpt470"
 SERVICE="backend"
 PORT_DEFINED_IN_INDEXJS="8080"
-LOCALHOST_PORT="8084"
+LOCALHOST_PORT="8080"
 PROJECT_ID="jobmanagementsystem"
 
 build() {

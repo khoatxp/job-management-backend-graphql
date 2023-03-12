@@ -8,6 +8,7 @@ const {
 } = require('../../util/validators');
 const {SECRET_KEY} = require('../../config');
 const User = require('../../models/User');
+const default_profile_pic_url = "https://storage.googleapis.com/cmpt470profilepics/default_profile_pic.jpeg"
 
 function generateToken(user) {
     return jwt.sign(
@@ -22,7 +23,44 @@ function generateToken(user) {
 }
 
 module.exports = {
+    Query: {
+        async getProfile(_, {userId}, context) {
+            try {
+                // Find user by ID
+                const user = await User.findById(userId);
+
+                // Return user profile data
+                return {
+                    firstName: user.firstName,
+                    lastName: user.lastName,
+                    biography: user.biography,
+                    profileUrl: user.profileUrl || default_profile_pic_url
+                };
+            } catch (err) {
+                throw new Error(err);
+            }
+        }
+    },
     Mutation: {
+        async changeProfileUrl(_, {userId, profileUrl}, context) {
+            try {
+                const user = await User.findByIdAndUpdate(
+                    userId,
+                    {profileUrl: profileUrl},
+                    {new: true}
+                );
+
+                // Return updated user profile data
+                return {
+                    firstName: user.firstName,
+                    lastName: user.lastName,
+                    biography: user.biography,
+                    profileUrl: user.profileUrl
+                };
+            } catch (err) {
+                throw new Error(err);
+            }
+        },
         async login(_, {username, password}) {
             const {errors, valid} = validateLoginInput(username, password);
 
@@ -87,7 +125,8 @@ module.exports = {
                 createdAt: new Date().toISOString(),
                 firstName,
                 lastName,
-                biography
+                biography,
+                default_profile_pic_url
             });
 
             const res = await newUser.save();
