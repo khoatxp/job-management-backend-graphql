@@ -5,6 +5,7 @@ module.exports = gql`
         username: String!
         resume: String!
         submittedAt: String!
+        originalFile: String
     }
 
     type Profile {
